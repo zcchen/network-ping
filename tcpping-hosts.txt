@@ -1,2 +1,2 @@
-192.168.37.112 80
-192.168.37.112 22
+www.tencent.com 80
+www.tencent.com 48080

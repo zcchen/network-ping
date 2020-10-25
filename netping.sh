@@ -11,6 +11,8 @@ usage="$0 <hosts-file> <ping-command> <action-when-failed> \n
 note: please use \"\" to quote the command setup
 "
 
+PARALLEL_PARAM=(--timeout 10 --colsep ' ' -j4)
+
 if [[ $# -ne 3 ]]; then
     echo -e $usage
     exit 1
@@ -58,7 +60,7 @@ function main()
         else
             trap "trap_kill $(pgrep -f $program_name)" SIGTERM SIGQUIT SIGINT SIGKILL
         fi
-        cat $hostfile | parallel --timeout 1 --colsep ' ' -j4 $pingcommand
+        cat $hostfile | parallel ${PARALLEL_PARAM[*]} $pingcommand
         if [[ $? -ne 0 ]]; then
             is_action4failed_running
             if [[ $? -eq 0 && -n $action4failed ]]; then
